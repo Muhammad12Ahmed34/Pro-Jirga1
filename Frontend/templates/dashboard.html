@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_profile %}{{ user.name }} — Pro Jirga{% else %}Dashboard — Pro Jirga{% endif %}{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+
+  <header class="page-head">
+    <div class="profile-head">
+      <div class="avatar">{{ user.name[0]|upper }}</div>
+      <div>
+        <p class="eyebrow">{% if is_profile and not is_own %}Public profile{% elif is_profile %}Your profile{% else %}Welcome back{% endif %}</p>
+        <h1>{{ user.name }}</h1>
+        <p class="muted small">{{ user.field }} · {{ user.user_type|replace('_', ' ')|title }}</p>
+      </div>
+    </div>
+
+    <div class="page-actions">
+      {% if is_profile and not is_own and current_user %}
+      <a href="{{ url_for('rate_profile_page', username=profile_slug) }}" class="btn btn-secondary">Rate profile</a>
+      {% endif %}
+      {% if is_own or not is_profile %}
+      <a href="{{ url_for('add_contribution_page') }}" class="btn btn-primary">+ Add contribution</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="grid-2">
+
+    <article class="card score-card">
+      {% set score = normalized_credibility(user.credibility_score) %}
+
+      <div class="score-head">
+        <span class="label">Credibility Score</span>
+        <span class="score-value">{{ score }}<span class="score-max">/100</span></span>
+      </div>
+
+      <div class="score-bar">
+        <div class="score-fill" style="width: {{ score }}%"></div>
+      </div>
+
+      <div class="score-meta">
+        <div class="score-stat">
+          <span class="label small">Match score</span>
+          <span class="mono">{{ "%.1f"|format(user.match_score or 0) }} ★</span>
+        </div>
+        <div class="score-stat">
+          <span class="label small">Contributions</span>
+          <span class="mono">{{ contributions|length }}</span>
+        </div>
+      </div>
+
+      <ul class="breakdown">
+        {% for item in user.credibility_breakdown %}
+        <li>
+          <span>{{ item.label }}</span>
+          <span class="mono">{{ item.value }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <p class="hint">Every point is traceable and auditable.</p>
+    </article>
+
+    <article class="card">
+      <h2 class="card-title">Recent activity</h2>
+
+      {% if contributions %}
+      <ul class="timeline">
+        {% for c in contributions %}
+        <li class="timeline-item">
+          <div class="timeline-meta">
+            <span class="tag tag-{{ c.source|lower }}">{{ c.source }}</span>
+            <span class="muted small">{{ c.timestamp }}</span>
+          </div>
+          <h3>{{ c.title }}</h3>
+          {% if c.description %}
+          <p class="muted">{{ c.description }}</p>
+          {% endif %}
+          <div class="timeline-footer">
+            <span class="small">Complexity <strong>{{ c.complexity_score }}/10</strong></span>
+            {% if c.confirmed_endorsements %}
+            <span class="small muted">· {{ c.confirmed_endorsements }} endorsement(s)</span>
+            {% endif %}
+            {% if is_own or not is_profile %}
+            <a href="{{ url_for('request_endorsement_page', contribution_id=c.id) }}" class="link-btn small">Request endorsement</a>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty-state">
+        <span class="empty-icon">📋</span>
+        <p>No contributions yet.</p>
+        {% if is_own or not is_profile %}
+        <a href="{{ url_for('add_contribution_page') }}" class="btn btn-secondary">Log your first proof</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </article>
+
+  </div>
+
+  {% if is_own or not is_profile %}
+  <div class="quick-links">
+    <a href="{{ url_for('challenge_page') }}" class="quick-link card">
+      <span class="quick-icon">⚡</span>
+      <div>
+        <strong>Skill challenge</strong>
+        <span class="muted small">Earn +7 credibility points</span>
+      </div>
+    </a>
+    <a href="{{ url_for('company_view') }}" class="quick-link card">
+      <span class="quick-icon">🏢</span>
+      <div>
+        <strong>Browse candidates</strong>
+        <span class="muted small">See how companies view profiles</span>
+      </div>
+    </a>
+  </div>
+  {% endif %}
+
+</section>
+{% endblock %}

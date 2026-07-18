@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Verify email — Pro Jirga{% endblock %}
+{% block content %}
+<section class="auth-page">
+  <div class="auth-card">
+    <div class="auth-icon">✉</div>
+    <p class="eyebrow">Check your inbox</p>
+    <h1>Enter verification code</h1>
+    <p class="lede">We sent a 6-digit code to <strong>{{ email }}</strong></p>
+
+    {% if dev_code %}
+    <div class="dev-banner">
+      <span class="dev-label">Dev mode</span>
+      Your code: <strong class="mono">{{ dev_code }}</strong>
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('verify_email_submit') }}" method="post" class="form">
+      <input type="hidden" name="email" value="{{ email }}">
+      <div class="field">
+        <label for="code" class="label">Verification code</label>
+        <input type="text" id="code" name="code" placeholder="000000" maxlength="6"
+               pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" required
+               class="code-input">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Verify & continue</button>
+      </div>
+    </form>
+
+    <p class="hint center-hint">
+      Didn't get it?
+      <form action="{{ url_for('login_email') }}" method="post" class="inline-form">
+        <input type="hidden" name="email" value="{{ email }}">
+        <button type="submit" class="link-btn">Resend code</button>
+      </form>
+    </p>
+    <a href="{{ url_for('landing') }}" class="back">← Use a different email</a>
+  </div>
+</section>
+{% endblock %}

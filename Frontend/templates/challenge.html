@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ challenge.title }} — Pro Jirga{% endblock %}
+{% block content %}
+<section class="narrow">
+  <a href="{{ url_for('dashboard') }}" class="back">← Back</a>
+
+  {% if not passed %}
+  <div class="card">
+    <div class="challenge-head">
+      <div>
+        <p class="eyebrow">Skill Challenge</p>
+        <h1>{{ challenge.title or 'Debug the failing checkout flow' }}</h1>
+      </div>
+      <div class="timer" data-minutes="{{ challenge.time_limit_min or 30 }}">
+        <span class="mono" id="timer">30:00</span>
+        <span class="muted small">time left</span>
+      </div>
+    </div>
+
+    <div class="prompt">
+      <p>{{ challenge.prompt or 'A payment webhook is intermittently double-charging users. Given the attached repo and logs, identify the root cause and submit a fix. You may submit a link to a PR or upload a patch file.' }}</p>
+    </div>
+
+    <form action="{{ url_for('challenge_submit') }}" method="post" enctype="multipart/form-data" class="form">
+      <div class="field">
+        <label for="link" class="label">Submission link (PR, gist, or repo)</label>
+        <input type="url" id="link" name="link" placeholder="https://github.com/you/fix">
+      </div>
+      <div class="field">
+        <label class="label">Or upload a file</label>
+        <label class="file-drop" for="file">
+          <span class="file-icon">📎</span>
+          <span>Tap to attach</span>
+          <input type="file" id="file" name="file" hidden>
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Submit challenge</button>
+    </form>
+  </div>
+  {% else %}
+  <div class="card success-card">
+    <div class="success-mark">✓</div>
+    <h1>Challenge passed</h1>
+    <p class="lede">Your submission was verified against the test suite.</p>
+    <div class="score-bump">
+      <span class="mono">+{{ score_delta or 7 }}</span>
+      <span>to your Credibility Score</span>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-block">Back to dashboard</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script>ProJirga.startTimer();</script>
+{% endblock %}

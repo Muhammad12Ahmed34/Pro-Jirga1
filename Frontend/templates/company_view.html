@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Candidates — Pro Jirga{% endblock %}
+{% block content %}
+<section>
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Company view</p>
+      <h1>Candidates</h1>
+      <p class="lede">Verified builders ranked by credibility and peer ratings.</p>
+    </div>
+  </header>
+
+  <form class="filters card" method="get" action="{{ url_for('company_view') }}">
+    <label class="filter">
+      <span class="label small">Sort by</span>
+      <select name="sort" onchange="this.form.submit()">
+        <option value="match_score" {% if current_sort != 'credibility_score' %}selected{% endif %}>Match Score</option>
+        <option value="credibility_score" {% if current_sort == 'credibility_score' %}selected{% endif %}>Credibility Score</option>
+      </select>
+    </label>
+    <label class="filter">
+      <span class="label small">Minimum rating</span>
+      <select name="min_rating" onchange="this.form.submit()">
+        <option value="" {% if not current_min_rating %}selected{% endif %}>Any</option>
+        <option value="3" {% if current_min_rating == 3 %}selected{% endif %}>3+ stars</option>
+        <option value="4" {% if current_min_rating == 4 %}selected{% endif %}>4+ stars</option>
+        <option value="4.5" {% if current_min_rating == 4.5 %}selected{% endif %}>4.5+ stars</option>
+      </select>
+    </label>
+    {% if fields %}
+    <label class="filter">
+      <span class="label small">Field</span>
+      <select name="field" onchange="this.form.submit()">
+        <option value="">All fields</option>
+        {% for f in fields %}
+        <option value="{{ f }}" {% if current_field == f %}selected{% endif %}>{{ f }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endif %}
+  </form>
+
+  {% if candidates %}
+  <div class="candidates">
+    {% for c in candidates %}
+    <article class="candidate-card">
+      <div class="candidate-top">
+        <div class="avatar sm">{{ c.name[0] }}</div>
+        <div>
+          <h3>{{ c.name }}</h3>
+          <p class="muted xsmall">{{ c.field }}</p>
+          <div class="stars-row">
+            {% for i in range(1,6) %}
+              <span class="star {% if c.avg_stars and i <= c.avg_stars|round(0,'floor') %}filled{% endif %}">★</span>
+            {% endfor %}
+            {% if c.avg_stars %}<span class="muted small">{{ c.avg_stars }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="candidate-scores">
+        <div>
+          <span class="label small">Match</span>
+          <span class="score-value sm">{{ c.match_score }}</span>
+        </div>
+        <div>
+          <span class="label small">Credibility</span>
+          <span class="score-value sm">{{ c.credibility_score }}<span class="score-max">/100</span></span>
+        </div>
+      </div>
+      <div class="tag-cloud">
+        {% for t in c.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+      </div>
+      <a href="{{ url_for('profile', username=c.slug) }}" class="btn btn-secondary btn-block">View profile</a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state card">
+    <span class="empty-icon">🔍</span>
+    <p>No candidates match your filters yet.</p>
+    <a href="{{ url_for('landing') }}" class="btn btn-primary">Join Pro Jirga</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

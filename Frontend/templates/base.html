@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Pro Jirga{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="{{ url_for('dashboard') if current_user else url_for('landing') }}" class="logo">
+        <span class="logo-mark">◆</span> Pro Jirga
+      </a>
+      {% if current_user %}
+      <nav class="nav-links">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('company_view') }}">Candidates</a>
+        <a href="{{ url_for('challenge_page') }}">Challenge</a>
+        <a href="{{ url_for('profile', username=current_user.github_username or current_user.email.split('@')[0]) }}" class="nav-profile">
+          <span class="avatar xs">{{ current_user.name[0]|upper }}</span>
+          Profile
+        </a>
+        <a href="{{ url_for('logout') }}" class="muted">Logout</a>
+      </nav>
+      {% else %}
+      <nav class="nav-links">
+        <a href="{{ url_for('company_view') }}" class="muted">For companies</a>
+      </nav>
+      {% endif %}
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+      <div class="flash flash-{{ category }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>Pro Jirga</span>
+      <span class="muted">Receipts, not resumes.</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

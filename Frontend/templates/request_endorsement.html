@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Request endorsement — Pro Jirga{% endblock %}
+{% block content %}
+<section class="narrow">
+  <a href="{{ url_for('dashboard') }}" class="back">← Back to dashboard</a>
+  <h1>Request peer endorsement</h1>
+  <p class="lede">Ask someone who witnessed your work to confirm it with one tap.</p>
+
+  <div class="card">
+    <p class="label small">Contribution</p>
+    <h3>{{ contribution.title }}</h3>
+    {% if contribution.description %}
+    <p class="muted">{{ contribution.description }}</p>
+    {% endif %}
+  </div>
+
+  <form action="{{ url_for('request_endorsement_page', contribution_id=contribution.id) }}" method="post" class="form">
+    <div class="field">
+      <label for="endorser_email" class="label">Endorser's email</label>
+      <input type="email" id="endorser_email" name="endorser_email"
+             placeholder="colleague@example.com" required>
+      <p class="hint">They'll receive a link to confirm your work.</p>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-block">Send endorsement request</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
