@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — Pro Jirga{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+
+  <!-- ==========================================
+       PAGE HEADER 
+       ========================================== -->
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Welcome back</p>
+      <h1>{{ user.name or 'Your dashboard' }}</h1>
+    </div>
+    <a href="{{ url_for('add_contribution') }}" class="btn btn-primary">+ Add contribution</a>
+  </header>
+
+  <!-- ==========================================
+       DASHBOARD METRICS & CONTENT GRID 
+       ========================================== -->
+  <div class="grid-2">
+
+    <!-- CARD 1: CREDIBILITY SCORE PROFILE -->
+    <article class="card score-card">
+      
+      <!-- Score Overview -->
+      <div class="score-head">
+        <span class="label">Credibility Score</span>
+        <span class="score-value">
+          {{ user.credibility_score or 72 }}<span class="score-max">/100</span>
+        </span>
+      </div>
+      
+      <!-- Visual Progress Bar -->
+      <div class="score-bar">
+        <div class="score-fill" style="width: {{ user.credibility_score or 72 }}%"></div>
+      </div>
+      
+      <!-- Point Breakdown List -->
+      <ul class="breakdown">
+        {# Fallback static data used if user.credibility_breakdown is empty #}
+        {% for item in user.credibility_breakdown or [
+          {'label': 'GitHub contributions (24 commits)', 'value': '+32'},
+          {'label': 'Manual proof of work (3 items)', 'value': '+18'},
+          {'label': 'Peer endorsements (5)', 'value': '+15'},
+          {'label': 'Skill challenge passed', 'value': '+7'}
+        ] %}
+          <li>
+            <span>{{ item.label }}</span>
+            <span class="mono">{{ item.value }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+      
+      <!-- Audit Footer Link -->
+      <p class="hint">Every point is traceable. <a href="#">See full audit →</a></p>
+    </article>
+
+
+    <!-- CARD 2: RECENT ACTIVITY TIMELINE -->
+    <article class="card">
+      <h2 class="card-title">Recent activity</h2>
+      
+      <ul class="timeline">
+        {# Fallback static data used if contributions list is empty #}
+        {% for c in contributions or [
+          {'title': 'Fixed race condition in payment webhook', 'description': 'PR #482 · repo: acme/checkout', 'source': 'GitHub', 'timestamp': '2 days ago', 'complexity_score': 8},
+          {'title': 'Tutored 3 students in linear algebra', 'description': 'Session notes + photo of whiteboard attached', 'source': 'Manual', 'timestamp': '5 days ago', 'complexity_score': 5},
+          {'title': 'Shipped auth refactor', 'description': '12 commits across 4 days · repo: acme/api', 'source': 'GitHub', 'timestamp': '1 week ago', 'complexity_score': 9}
+        ] %}
+          <li class="timeline-item">
+            
+            <!-- Metadata (Source tags and Timeline duration) -->
+            <div class="timeline-meta">
+              <span class="tag tag-{{ c.source|lower }}">{{ c.source }}</span>
+              <span class="muted small">{{ c.timestamp }}</span>
+            </div>
+            
+            <!-- Activity Details -->
+            <h3>{{ c.title }}</h3>
+            <p class="muted">{{ c.description }}</p>
+            <p class="small">Complexity <strong>{{ c.complexity_score }}/10</strong></p>
+            
+          </li>
+        {% endfor %}
+      </ul>
+    </article>
+
+  </div>
+</section>
+{% endblock %}
