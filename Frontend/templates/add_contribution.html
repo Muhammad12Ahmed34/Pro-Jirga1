@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Add contribution — Pro Jirga{% endblock %}
+{% block content %}
+<section class="narrow">
+  <a href="{{ url_for('dashboard') }}" class="back">← Back to dashboard</a>
+  <h1>Log proof of work</h1>
+  <p class="lede">Anything you built, taught, fixed, or shipped. One receipt at a time.</p>
+
+  <form action="{{ url_for('add_contribution') }}" method="post" enctype="multipart/form-data" class="form">
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <input type="text" id="title" name="title" placeholder="e.g. Rebuilt inventory system for a corner shop" required>
+    </div>
+
+    <div class="field">
+      <label for="description" class="label">What did you do?</label>
+      <textarea id="description" name="description" rows="5" placeholder="Describe the work, the outcome, and who benefited." required></textarea>
+    </div>
+
+    <div class="field">
+      <label class="label">Proof (photo, document, or voice note)</label>
+      <label class="file-drop" for="proof">
+        <span class="file-icon">📎</span>
+        <span>Tap to attach — image, PDF, or audio</span>
+        <input type="file" id="proof" name="proof" accept="image/*,application/pdf,audio/*" hidden>
+      </label>
+      <p class="hint">Optional but strongly recommended. Proof multiplies your score weight.</p>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary btn-block">Submit contribution</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
+
