@@ -28,13 +28,13 @@
       </div>
     </form>
 
-    <p class="hint center-hint">
+    <div class="hint center-hint">
       Didn't get it?
       <form action="{{ url_for('login_email') }}" method="post" class="inline-form">
         <input type="hidden" name="email" value="{{ email }}">
         <button type="submit" class="link-btn">Resend code</button>
       </form>
-    </p>
+    </div>
     <a href="{{ url_for('landing') }}" class="back">← Use a different email</a>
   </div>
 </section>

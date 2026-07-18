@@ -50,10 +50,22 @@ window.ProJirga = (function () {
     });
   }
 
+  function initNavToggle() {
+    var toggle = document.querySelector('.nav-toggle');
+    var navLinks = document.querySelector('.nav-links');
+    if (!toggle || !navLinks) return;
+    toggle.addEventListener('click', function () {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      navLinks.classList.toggle('open', !expanded);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     fileDropLabelUpdate();
     autoDismissFlashes();
     codeInputFormat();
+    initNavToggle();
   });
 
   return { startTimer: startTimer };
