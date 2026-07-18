@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Confirm endorsement — Pro Jirga{% endblock %}
+{% block content %}
+<section class="narrow center">
+  <div class="card confirm-card">
+    {% if confirmed %}
+    <div class="success-mark">✓</div>
+    <h1>Already confirmed</h1>
+    <p class="lede">You endorsed this contribution. Thank you!</p>
+    {% else %}
+    <p class="eyebrow">Peer endorsement</p>
+    <h1>Confirm this work?</h1>
+    <p class="lede"><strong>{{ owner.name }}</strong> claims they did the following. Can you vouch for it?</p>
+
+    <blockquote class="quote">
+      <strong>{{ contribution.title }}</strong>
+      {% if contribution.description %}
+      <br><span class="muted">{{ contribution.description }}</span>
+      {% endif %}
+    </blockquote>
+
+    <form action="{{ url_for('endorse_confirm_submit', token=token) }}" method="post">
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Yes, I confirm this</button>
+    </form>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

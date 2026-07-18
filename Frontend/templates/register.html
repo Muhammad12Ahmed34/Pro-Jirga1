@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Create account — Pro Jirga{% endblock %}
+{% block content %}
+<section class="auth-page">
+  <div class="auth-card auth-card-wide">
+    <p class="eyebrow">Almost there</p>
+    <h1>Create your profile</h1>
+    <p class="lede">Signed in as <strong>{{ email }}</strong></p>
+
+    <form action="{{ url_for('register') }}" method="post" class="form">
+      <div class="field">
+        <label for="name" class="label">Full name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required autofocus>
+      </div>
+
+      <div class="field">
+        <label for="user_type" class="label">I am a…</label>
+        <select id="user_type" name="user_type" required>
+          <option value="student">Student</option>
+          <option value="professional" selected>Working professional</option>
+          <option value="gig_worker">Gig worker / freelancer</option>
+          <option value="tutor">Tutor / educator</option>
+          <option value="other">Other builder</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="field" class="label">Primary field</label>
+        <input type="text" id="field" name="field" placeholder="e.g. Web development, Data science, Design" required>
+      </div>
+
+      <div class="field">
+        <label for="github_username" class="label">GitHub username <span class="optional">(optional)</span></label>
+        <input type="text" id="github_username" name="github_username" placeholder="your-username">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Start building my ledger</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

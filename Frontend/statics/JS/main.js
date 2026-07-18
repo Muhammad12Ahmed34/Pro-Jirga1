@@ -1,4 +1,4 @@
-// Pro Jirga — minimal vanilla JS
+// Pro Jirga — vanilla JS utilities
 window.ProJirga = (function () {
   function fileDropLabelUpdate() {
     document.querySelectorAll('.file-drop').forEach(function (label) {
@@ -32,8 +32,28 @@ window.ProJirga = (function () {
     tick();
   }
 
+  function autoDismissFlashes() {
+    document.querySelectorAll('.flash').forEach(function (el) {
+      setTimeout(function () {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-8px)';
+        setTimeout(function () { el.remove(); }, 300);
+      }, 5000);
+    });
+  }
+
+  function codeInputFormat() {
+    var input = document.querySelector('.code-input');
+    if (!input) return;
+    input.addEventListener('input', function () {
+      input.value = input.value.replace(/\D/g, '').slice(0, 6);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     fileDropLabelUpdate();
+    autoDismissFlashes();
+    codeInputFormat();
   });
 
   return { startTimer: startTimer };

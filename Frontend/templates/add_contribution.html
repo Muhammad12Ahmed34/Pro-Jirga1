@@ -6,7 +6,7 @@
   <h1>Log proof of work</h1>
   <p class="lede">Anything you built, taught, fixed, or shipped. One receipt at a time.</p>
 
-  <form action="{{ url_for('add_contribution') }}" method="post" enctype="multipart/form-data" class="form">
+  <form action="{{ url_for('add_contribution_page') }}" method="post" enctype="multipart/form-data" class="form card">
     <div class="field">
       <label for="title" class="label">Title</label>
       <input type="text" id="title" name="title" placeholder="e.g. Rebuilt inventory system for a corner shop" required>
@@ -24,13 +24,12 @@
         <span>Tap to attach — image, PDF, or audio</span>
         <input type="file" id="proof" name="proof" accept="image/*,application/pdf,audio/*" hidden>
       </label>
-      <p class="hint">Optional but strongly recommended. Proof multiplies your score weight.</p>
+      <p class="hint">Optional but recommended. Attachments boost your complexity weight.</p>
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary btn-block">Submit contribution</button>
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Submit contribution</button>
     </div>
   </form>
 </section>
 {% endblock %}
-
