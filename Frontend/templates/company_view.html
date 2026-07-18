@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Candidates — Pro Jirga{% endblock %}
+{% block content %}
+<section>
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">Company view</p>
+      <h1>Candidates</h1>
+    </div>
+  </header>
+
+  <div class="filters">
+    <label class="filter">
+      <span class="label small">Sort by</span>
+      <select name="sort">
+        <option>Match Score (high → low)</option>
+        <option>Credibility Score</option>
+        <option>Avg star rating</option>
+        <option>Most recent activity</option>
+      </select>
+    </label>
+    <label class="filter">
+      <span class="label small">Minimum rating</span>
+      <select name="min_rating">
+        <option>Any</option>
+        <option>3+ stars</option>
+        <option>4+ stars</option>
+        <option>4.5+ stars</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="candidates">
+    {% for c in candidates or [
+      {'name':'Zara Ahmed', 'credibility_score':88, 'match_score':91.2, 'avg_stars':4.8, 'tags':['reliable','ships on time']},
+      {'name':'Bilal Raza', 'credibility_score':81, 'match_score':86.5, 'avg_stars':4.6, 'tags':['fast learner','clear comms']},
+      {'name':'Sana Malik', 'credibility_score':74, 'match_score':78.1, 'avg_stars':4.3, 'tags':['thorough','teacher']},
+      {'name':'Omar Khan', 'credibility_score':69, 'match_score':72.4, 'avg_stars':4.1, 'tags':['reliable']}
+    ] %}
+    <article class="candidate-card">
+      <div class="candidate-top">
+        <div class="avatar sm">{{ c.name[0] }}</div>
+        <div>
+          <h3>{{ c.name }}</h3>
+          <div class="stars-row">
+            {% for i in range(1,6) %}
+              <span class="star {% if i <= c.avg_stars|round(0,'floor') %}filled{% endif %}">★</span>
+            {% endfor %}
+            <span class="muted small">{{ c.avg_stars }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="candidate-scores">
+        <div>
+          <span class="label small">Match</span>
+          <span class="score-value sm">{{ c.match_score }}</span>
+          <span class="muted xsmall">stars×credibility×verified peers</span>
+        </div>
+        <div>
+          <span class="label small">Credibility</span>
+          <span class="score-value sm">{{ c.credibility_score }}<span class="score-max">/100</span></span>
+          <span class="muted xsmall">commits + proof + endorsements</span>
+        </div>
+      </div>
+      <div class="tag-cloud">
+        {% for t in c.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+      </div>
+      <a href="#" class="btn btn-secondary btn-block">View profile</a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
