@@ -1,0 +1,43 @@
+<section class="landing">
+  <div class="landing-hero">
+    <p class="eyebrow">Proof of work, not paperwork</p>
+    <h1>What have you actually<br><span class="accent">built</span>?</h1>
+    <p class="lede">
+      Your commits, contributions, and peer endorsements — verified and scored transparently.
+      No resume theater.
+    </p>
+
+    <div class="auth-stack">
+      <a href="{{ url_for('login_github') }}" class="btn btn-primary btn-block">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        Continue with GitHub
+      </a>
+
+      <div class="divider"><span>or</span></div>
+
+      <form action="{{ url_for('login_phone') }}" method="post" class="phone-form">
+        <label for="phone" class="label">Phone number</label>
+        <div class="phone-row">
+          <input type="tel" id="phone" name="phone" placeholder="+92 300 1234567" required>
+          <button type="submit" class="btn btn-secondary">Send code</button>
+        </div>
+        <p class="hint">For students, working professionals, gig workers, tutors, and anyone building outside GitHub.</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="explainer">
+    <div class="explainer-item">
+      <span class="step">1</span>
+      <p>We auto-import your GitHub commits or let you log manual proof of work — photo, text, or voice.</p>
+    </div>
+    <div class="explainer-item">
+      <span class="step">2</span>
+      <p>Peers confirm what you did with one tap. Every endorsement is timestamped and public.</p>
+    </div>
+    <div class="explainer-item">
+      <span class="step">3</span>
+      <p>Your Credibility Score is calculated in the open. Companies see receipts, not claims.</p>
+    </div>
+  </div>
+</section>
