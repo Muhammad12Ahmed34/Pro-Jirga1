@@ -76,11 +76,12 @@ This application is built with Flask and includes a Vercel deployment config in 
   5. `python app.py`
 
 - Vercel deployment:
-  1. Install the Vercel CLI (`npm i -g vercel`)
-  2. Run `vercel` in the repo root
-  3. Ensure `Backend/app.py` is the Vercel entrypoint and `vercel.json` remains present
+  1. Go to vercel.com and sign in.
+  2. Import the GitHub repository using the Vercel dashboard.
+  3. Use the default settings and ensure the root path is the repository root.
+  4. Vercel will detect `Backend/app.py` and the `vercel.json` configuration automatically.
 
-If you want to deploy with environment variables, set `SECRET_KEY` and `DATABASE_PATH` in your hosting provider.
+If you want to deploy with environment variables, set `SECRET_KEY` and `DATABASE_PATH` in the Vercel project settings.
 
 ## 🗺 Roadmap
 
