@@ -25,7 +25,7 @@
         <a href="{{ url_for('dashboard') }}">Dashboard</a>
         <a href="{{ url_for('company_view') }}">Candidates</a>
         <a href="{{ url_for('challenge_page') }}">Challenge</a>
-        <a href="{{ url_for('dashboard') }}" class="muted">For candidates</a>
+        <a href="{{ url_for('company_view') }}" class="muted">For candidates</a>
         <a href="{{ url_for('about') }}" class="muted">About Us</a>
         <a href="{{ url_for('profile', username=current_user.github_username or current_user.email.split('@')[0]) }}" class="nav-profile">
           <span class="avatar xs">{{ current_user.name[0]|upper }}</span>

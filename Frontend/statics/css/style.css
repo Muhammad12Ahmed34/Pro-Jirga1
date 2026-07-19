@@ -276,6 +276,16 @@ p { margin: 0 0 12px; color: var(--muted); }
   object-fit: cover;
   display: block;
 }
+.team-avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
 .team-info { flex: 1; min-width: 0; }
 .role { color: var(--accent); font-size: 13px; font-weight: 700; margin-bottom: 10px; }
 .bio { margin-bottom: 14px; color: var(--muted); }

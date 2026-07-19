@@ -14,6 +14,7 @@ import sqlite3
 import uuid
 import json
 import urllib.request
+import tempfile
 from datetime import datetime, timedelta
 from functools import wraps
 
@@ -33,7 +34,9 @@ from flask import (
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.realpath(os.path.normpath(os.path.join(BASE_DIR, "..", "Frontend")))
-DB_PATH = os.path.join(BASE_DIR, "skillledger.db")
+DB_PATH = os.environ.get("DATABASE_PATH") or os.path.join(BASE_DIR, "skillledger.db")
+if not os.access(os.path.dirname(DB_PATH), os.W_OK):
+    DB_PATH = os.path.join(tempfile.gettempdir(), "skillledger.db")
 static_dir = os.path.realpath(os.path.join(FRONTEND_DIR, "statics"))
 
 app = Flask(
@@ -46,6 +49,14 @@ app.secret_key = os.environ.get("SECRET_KEY", "pro-jirga-dev-secret-change-in-pr
 app.config["DEBUG"] = True
 
 CODE_EXPIRY_MINUTES = 10
+DB_INITIALIZED = False
+
+@app.before_request
+def ensure_database():
+    global DB_INITIALIZED
+    if not DB_INITIALIZED:
+        init_db()
+        DB_INITIALIZED = True
 
 
 # ---------------------------------------------------------------------------

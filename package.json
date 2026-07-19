@@ -1,0 +1,9 @@
+{
+  "name": "pro-jirga",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "python Backend/app.py",
+    "dev": "python Backend/app.py"
+  }
+}
